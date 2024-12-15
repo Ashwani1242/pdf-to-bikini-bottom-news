@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF To Bikini Bottom News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .main-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 32px;
+            max-width: 1080px;
+            width: 100%;
+            flex: 1 1 auto;
+            padding: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .main-container {
+                flex-direction: row;
+            }
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            height: 340px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .file-upload {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px 20px;
+            height: 100%;
+            width: 90%;
+            cursor: pointer;
+            transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+            text-align: center;
+            background: #fafafa;
+            position: relative;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 48px 35px -48px #e8e8e8;
+        }
+
+        .file-upload:hover,
+        .file-upload:focus {
+            border-color: #ff7e5f;
+            box-shadow: 0 0 10px rgba(255, 126, 95, 0.3);
+            background-color: #fff5f2;
+        }
+
+        .file-upload input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload img {
+            width: 20px;
+            margin-bottom: 15px;
+        }
+
+        .file-upload p {
+            margin: 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .file-upload span {
+            color: #ff7e5f;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #ff7e5f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff7e5f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .video-container {
+            margin-top: 20px;
+        }
+
+        .video-container video {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .demo-video-container {
+            margin-top: 4px;
+            width: 100%;
+        }
+
+        .demo-video-container video {
+            width: 100%;
+            background-color: black;
+            max-height: 340px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="container">
+            <form id="uploadForm">
+                <label class="file-upload">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" alt="Upload Icon">
+                    <p>Drag & drop your files here <br> or <span>click to upload</span></p>
+                    <input type="file" id="fileInput" accept=".png, .jpeg, .jpg, .doc, .docx, .pdf" required />
+                </label>
+                <button type="submit">Generate Bikini Bottom News!</button>
+            </form>
+            <div class="loader" id="loader"></div>
+            <div class="video-container" id="videoContainer" style="display: none;">
+                <p>Your video is ready! Watch it below:</p>
+                <video controls id="videoPlayer"></video>
+            </div>
+        </div>
+        <div class="container">
+            <div class="demo-video-container">
+                <video controls>
+                    <source src="https://vibevision-bucket.s3.amazonaws.com/673f6f9885fb945764526ea0_brainrot_1733957042806_video.mp4" type="video/mp4">
+                    <!-- Replace with a valid demo video URL -->
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
+        const loader = document.getElementById('loader');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
+
+        uploadForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a file to upload.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('userName', 'PDF To Bikini Bottom News');
+
+            loader.style.display = 'block';
+
+            try {
+                const response = await fetch('https://vibevision.ai/api/generate-video/bikini-bottom-news', { // Replace with your backend endpoint
+                    method: 'POST',
+                    body: formData,
+                });
+
+                loader.style.display = 'none';
+
+                if (!response.ok) {
+                    throw new Error('Failed to upload file');
+                }
+
+                const data = await response.json();
+                const videoUrl = data.videoUrl; // Assuming the response contains a videoUrl field
+
+                if (videoUrl) {
+                    videoPlayer.src = videoUrl;
+                    videoContainer.style.display = 'block';
+                } else {
+                    alert('No video URL returned from the server.');
+                }
+            } catch (error) {
+                loader.style.display = 'none';
+                alert('An error occurred while uploading the file: ' + error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
