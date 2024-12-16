@@ -396,15 +396,15 @@
         const videoPlayer = document.getElementById('videoPlayer');
         const downloadButton = document.getElementById('download-button');
 
-        const MAX_FILE_SIZE_MB = 8; // Maximum file size in megabytes
-        const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // Convert to bytes
+        const MAX_FILE_SIZE_MB = 8; 
+        const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
         fileInput.addEventListener('change', () => {
             const file = fileInput.files[0];
             if (file) {
                 if (file.size > MAX_FILE_SIZE_BYTES) {
                     alert(`File size exceeds ${MAX_FILE_SIZE_MB} MB. Please upload a smaller file.`);
-                    fileInput.value = ''; // Reset the file input
+                    fileInput.value = '';
                     return;
                 }
 
@@ -450,11 +450,9 @@
                 const videoUrl = data.videoUrl;
 
                 if (videoUrl) {
-                    // Display the video
                     videoPlayer.src = videoUrl;
                     videoContainer.style.display = 'block';
 
-                    // Set up the download button
                     downloadButton.href = videoUrl;
                     downloadButton.style.display = 'block';
                 } else {
