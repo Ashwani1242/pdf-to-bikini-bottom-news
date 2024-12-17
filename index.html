@@ -16,7 +16,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
     <title>PDF to Bikini Bottom News 🌊 | SpongeBob Style Video Generator</title>
     <style>
         .istok-web-regular {
@@ -65,8 +64,8 @@
             justify-content: center;
             flex-direction: column;
             gap: 32px;
-            width: 100%;
-            padding: 20px;
+            width: 90%;
+            padding: 16px;
         }
 
         .header {
@@ -115,11 +114,26 @@
                 font-size: 24px;
             }
         }
-
+        
         @media (min-width: 1120px) {
             .icon-parent {
                 display: flex !important;
             }
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            min-height: 340px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .container form {
@@ -138,6 +152,7 @@
             text-align: left;
             text-wrap: wrap;
             width: 100%;
+            margin-bottom: 8px;
         }
 
         .file-upload {
@@ -150,7 +165,7 @@
             cursor: pointer;
             transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
             text-align: center;
-            background: #fafafa58;
+            background: #fafafa;
             position: relative;
             overflow: hidden;
 
@@ -159,7 +174,7 @@
             gap: 20px;
             align-items: center;
             justify-content: center;
-            box-shadow: 0px 48px 35px -48px #e8e8e89a;
+            box-shadow: 0px 48px 35px -48px #e8e8e8;
         }
 
         .file-upload:hover,
@@ -314,6 +329,10 @@
                 margin-left: -15px;
             }
         }
+        
+        video::-webkit-media-controls-pip-button {
+            display: none;
+        }
     </style>
 </head>
 
@@ -324,103 +343,52 @@
             <h2>Transform your PDF, Document or Images into hilarious underwater news reports!</h2>
         </div>
         <div class="main-container">
-            <div class="container bg-gray-400/30 backdrop-blur-lg rounded-lg p-4">
-                <form id="uploadForm" class="flex flex-col gap-4 ">
-                    <div class="bg-gray-100/30 backdrop-blur-lg rounded-lg p-4">
-                        <p class="upload-instruction text-sm text-gray-700/80">
-                            Supported formats: .png, .jpeg, .jpg, .doc, .docx, .pdf
-                            <br>Maximum file size: 8MB
+            <div class="container">
+                <form id="uploadForm">
+                    <p class="upload-instruction">Supported Format: .png, .jpeg, .jpg, .doc, .docx, .pdf and less than
+                        8mb</p>
+                    <label class="file-upload">
+                        <div id="input-head">
+                            <img src="https://img.icons8.com/dusk/64/upload--v1.png" alt="Upload Icon">
+                            <p>Drag & drop your files here <br> or <span>click to upload</span></p>
+                        </div>
+                        <div id="file-name-head" style="display: none;">
+                            <p style="margin-top: 10px; font-weight: bold; color: #555;">
+                        </div>
                         </p>
-                    </div>
-
-                    <label class="file-upload group">
-                        <div id="input-head" class="flex flex-col items-center gap-4">
-                            <img src="https://img.icons8.com/dusk/64/upload--v1.png" alt="Upload Icon"
-                                class="w-16 h-16 group-hover:scale-110 transition-transform">
-                            <p class="text-center">
-                                Drag & drop your files here
-                                <br>
-                                or <span class="text-blue-400 font-bold">click to upload</span>
-                            </p>
-                        </div>
-                        <div id="file-name-head" class="hidden">
-                            <p class="mt-4 font-bold text-gray-700"></p>
-                        </div>
-                        <input type="file" id="fileInput" accept=".png, .jpeg, .jpg, .doc, .docx, .pdf" required
-                            class="opacity-0 absolute inset-0 w-full h-full cursor-pointer" />
+                        <input type="file" id="fileInput" accept=".png, .jpeg, .jpg, .doc, .docx, .pdf" required />
                     </label>
-
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg
-                                   transform hover:scale-105 transition-all">
-                        Generate Bikini Bottom News! 🎥
-                    </button>
+                    <button type="submit">Generate Bikini Bottom News!</button>
                 </form>
-
                 <div class="loader" id="loader"></div>
-
-                <div id="videoContainer" class="video-container hidden">
-                    <div class="bg-white/10 rounded-lg p-4 mb-4">
-                        <p class="text-white text-lg font-bold">🎉 Your video is ready! Watch it below:</p>
-                    </div>
-                    <video controls id="videoPlayer" class="w-full rounded-lg shadow-xl"></video>
-                    <a id="download-button" href="#" target="_blank" download class="hidden mt-4 block">
-                        <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg
-                                     transform hover:scale-105 transition-all">
-                            Download Video 📥
-                        </button>
+                <div class="video-container" id="videoContainer" style="display: none;">
+                    <p>Your video is ready! Watch it below:</p>
+                    <video disablePictureInPicture controls id="videoPlayer"></video>
+                    <a id="download-button" href="#" target="_blank" download style="display: none;">
+                        <button>Download Video</button>
                     </a>
                 </div>
             </div>
-            <!-- Animated Arrow -->
-            <div class="icon-parent flex justify-center items-center rotate-90 lg:rotate-0 lg:w-16 px-20">
-                <span class="icon-Container scale-150">
+            <div class="icon-parent">
+                <span class="icon-Container">
                     <svg width="48" height="57" viewBox="0 0 16 19" fill="#111" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="1.61321" cy="1.61321" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="5.73583" cy="1.61321" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.2s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="5.73583" cy="5.5566" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.4s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="9.85851" cy="5.5566" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.6s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="9.85851" cy="9.5" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.8s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="13.9811" cy="9.5" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="1s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="5.73583" cy="13.4434" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="1.2s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="9.85851" cy="13.4434" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="1.4s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="1.61321" cy="17.3868" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="1.6s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle cx="5.73583" cy="17.3868" r="1.5" fill="white">
-                            <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="1.8s"
-                                repeatCount="indefinite" />
-                        </circle>
+                        <circle cx="1.61321" cy="1.61321" r="1.5" fill="white"></circle>
+                        <circle cx="5.73583" cy="1.61321" r="1.5" fill="white"></circle>
+                        <circle cx="5.73583" cy="5.5566" r="1.5" fill="white"></circle>
+                        <circle cx="9.85851" cy="5.5566" r="1.5" fill="white"></circle>
+                        <circle cx="9.85851" cy="9.5" r="1.5" fill="white"></circle>
+                        <circle cx="13.9811" cy="9.5" r="1.5" fill="white"></circle>
+                        <circle cx="5.73583" cy="13.4434" r="1.5" fill="white"></circle>
+                        <circle cx="9.85851" cy="13.4434" r="1.5" fill="white"></circle>
+                        <circle cx="1.61321" cy="17.3868" r="1.5" fill="white"></circle>
+                        <circle cx="5.73583" cy="17.3868" r="1.5" fill="white"></circle>
                     </svg>
                 </span>
             </div>
             <div class="container">
                 <div class="demo-video-container">
                     <p style="text-align: left; margin: 0; margin-bottom: 10px;">Sample Video:</p>
-                    <video muted autoplay loop controls>
+                    <video muted autoplay loop disablePictureInPicture>
                         <source
                             src="https://vibevision-bucket.s3.amazonaws.com/673f6f9885fb945764526ea0_bikini-bottom-news_1734326944299_video.mp4"
                             type="video/mp4">
@@ -441,7 +409,7 @@
         const videoPlayer = document.getElementById('videoPlayer');
         const downloadButton = document.getElementById('download-button');
 
-        const MAX_FILE_SIZE_MB = 8;
+        const MAX_FILE_SIZE_MB = 8; 
         const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
         fileInput.addEventListener('change', () => {
